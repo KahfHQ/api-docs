@@ -9,6 +9,8 @@ tags:
     description: Authentication API
   - name: Video
     description: API of Video
+  - name: Channel
+    description: API of Channel
 components:
   schemas:
     Video:
