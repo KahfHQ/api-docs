@@ -28,21 +28,21 @@ components:
               type: number
               enum:
                 - 0: None/Haram
-                - 1: All
-                - 2: Male
-                - 3: Female
-                - 4: Child
-                - -4: Except Child
+                - 1: Practicing Muslim
+                - 2: Liberal Muslim
+                - 3: Moderate Muslim
         permissible_for:
           type: object
           properties:
             value:
               type: number
               enum:
-                - 0: None/Haram
-                - 1: Practicing Muslim
-                - 2: Liberal Muslim
-                - 3: Moderate Muslim
+               - 0: None/Haram
+               - 1: All
+               - 2: Male
+               - 3: Female
+               - 4: Child
+               - -4: Except Child
         is_halal:
           type: boolean
     Channel:
@@ -60,11 +60,9 @@ components:
               type: number
               enum:
                 - 0: None/Haram
-                - 1: All
-                - 2: Male
-                - 3: Female
-                - 4: Child
-                - -4: Except Child
+                - 1: Practicing Muslim
+                - 2: Liberal Muslim
+                - 3: Moderate Muslim
         permissible_for:
           type: object
           properties:
@@ -72,9 +70,11 @@ components:
               type: number
               enum:
                 - 0: None/Haram
-                - 1: Practicing Muslim
-                - 2: Liberal Muslim
-                - 3: Moderate Muslim
+                - 1: All
+                - 2: Male
+                - 3: Female
+                - 4: Child
+                - -4: Except Child
         is_halal:
           type: boolean
 paths:
