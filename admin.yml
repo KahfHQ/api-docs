@@ -1,0 +1,232 @@
+openapi: 3.0.3
+info:
+  title: Admin API of Halalz
+  version: 1.0.0
+servers:
+  - url: https://api.halalz.org/api/admin
+tags:
+  - name: Auth
+    description: Authentication API
+  - name: Video
+    description: API of Videos
+  - name: Channel
+    description: API of Channels
+components:
+  schemas:
+    Video:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 5Ne-d-buzXA
+        title:
+          type: string
+        practicing_level:
+          type: object
+          properties:
+            value:
+              type: number
+              enum:
+                - 0: None/Haram
+                - 1: Practicing Muslim
+                - 2: Liberal Muslim
+                - 3: Moderate Muslim
+        permissible_for:
+          type: object
+          properties:
+            value:
+              type: number
+              enum:
+               - 0: None/Haram
+               - 1: All
+               - 2: Male
+               - 3: Female
+               - 4: Child
+               - -4: Except Child
+        is_halal:
+          type: boolean
+    Channel:
+      type: object
+      properties:
+        id:
+          type: string
+          example: UCLkXpkmKHzxIzfaAIaYbesg
+        title:
+          type: string
+        practicing_level:
+          type: object
+          properties:
+            value:
+              type: number
+              enum:
+                - 0: None/Haram
+                - 1: Practicing Muslim
+                - 2: Liberal Muslim
+                - 3: Moderate Muslim
+        permissible_for:
+          type: object
+          properties:
+            value:
+              type: number
+              enum:
+                - 0: None/Haram
+                - 1: All
+                - 2: Male
+                - 3: Female
+                - 4: Child
+                - -4: Except Child
+        is_halal:
+          type: boolean
+paths:
+  /login:
+    post:
+      tags:
+        - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      email:
+                        type: string
+                      name:
+                        type: string
+                  token:
+                    type: string
+  /videos:
+    get:
+      tags:
+        - Video
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+            example: Bearer {TOKEN}
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Video'
+    post:
+      tags:
+        - Video
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+            example: Bearer {TOKEN}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID of the video
+                  example: 5Ne-d-buzXA
+                is_halal:
+                  type: boolean
+                practicing_level:
+                  type: integer
+                permissible_for:
+                  type: integer
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+
+  /channels:
+    get:
+      tags:
+        - Channel
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+            example: Bearer {TOKEN}
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Channel'
+    post:
+      tags:
+        - Channel
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+            example: Bearer {TOKEN}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID of a channel
+                is_halal:
+                  type: integer
+                practicing_level:
+                  type: integer
+                permissible_for:
+                  type: integer
+                with_videos:
+                  type: boolean
+                  default: false
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
